@@ -583,36 +583,12 @@
             <i class="arrow-right">></i>
           </router-link>
         </li>
-        <li @click="classRemove" v-if="site.templatePath!='zixun/entertainment'">
+        <li @click="classRemove">
           <router-link to="/dashboard/site/ns-nav-manage">
             <i class="nav_icon iconfont icon-icon-test"></i>
             <span class="nav-text">导航管理</span>
             <i class="arrow-right">></i>
           </router-link>
-        </li>
-        <li class="drop-show" @click="dropdown($event)" v-if="site.templatePath=='zixun/entertainment'">
-          <a href="javascript:;">
-            <i class="nav_icon iconfont icon-icon-test"></i>
-            <span class="nav-text">
-              导航管理
-              <i class="fa fa-angle-right nav_icon"></i>
-            </span>
-            <i class="arrow-right">></i>
-          </a>
-          <ul class="drop-list" @click="$event.cancelBubble=true">
-            <li>
-              <router-link to="/dashboard/site/ns-nav-manage">
-                <span class="nav-text">头部导航</span>
-                <i class="arrow-right">></i>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/dashboard/site/ns-cathet-manage">
-                <span class="nav-text">侧边导航</span>
-                <i class="arrow-right">></i>
-              </router-link>
-            </li>
-          </ul>
         </li>
         <li @click="classRemove">
           <router-link to="/dashboard/site/ns-article-list">
@@ -621,20 +597,6 @@
             <i class="arrow-right">></i>
           </router-link>
         </li>
-        <li @click="classRemove" v-if="site.templatePath=='zixun/entertainment'">
-          <router-link to="/dashboard/site/ns-atlas-list">
-            <i class="fa fa-info-circle nav_icon iconfont icon-tuji"></i>
-            <span class="nav-text">娱乐图集管理</span>
-            <i class="arrow-right">></i>
-          </router-link>
-        </li>
-        <!--<li @click="classRemove">-->
-        <!--<router-link to="/dashboard/site/ns-sort-manage">-->
-        <!--<i class="nav_icon iconfont icon-ziliao"></i>-->
-        <!--<span class="nav-text">分类管理</span>-->
-        <!--<i class="arrow-right">></i>-->
-        <!--</router-link>-->
-        <!--</li>-->
         <li class="drop-show" @click="dropdown($event)">
           <a href="javascript:;">
             <i class="fa fa-cogs nav_icon iconfont icon-pingtaiguanli"></i>
@@ -786,13 +748,6 @@
             <i class="arrow-right">></i>
           </router-link>
         </li>   
-        <li @click="classRemove" v-if="site.templatePath=='zixun/entertainment'">
-          <router-link to="/dashboard/site/ns-atlas-crawl">
-            <i class="fa fa-dashboard (alias) nav_icon iconfont icon-wangyezhuaqu"></i>
-            <span class="nav-text">娱乐图集抓取</span>
-            <i class="arrow-right">></i>
-          </router-link>
-        </li>  
       </ul>
       <!-- 行业新闻侧边栏路由配置 -->
       <ul v-if="site.type===6">
@@ -1232,9 +1187,148 @@
           </router-link>
         </li>
       </ul>
+
+      <!-- 新闻站侧边栏路由配置 -->
+      <ul v-if="site.type===11">
+         <li @click="classRemove">
+          <router-link to="/dashboard/site/journal-basic-info">
+            <i class="nav_icon iconfont icon-jibenxinxi"></i>
+            <span class="nav-text">基本信息管理</span>
+            <i class="arrow-right">></i>
+          </router-link>
+        </li>
+        <li class="drop-show" @click="dropdown($event)">
+          <a href="javascript:;">
+            <i class="fa fa-cogs nav_icon iconfont icon-icon-test"></i>
+            <span class="nav-text">
+              导航管理
+              <i class="fa fa-angle-right nav_icon"></i>
+            </span>
+            <i class="arrow-right">></i>
+          </a>
+          <ul class="drop-list" @click="$event.cancelBubble=true">
+            <li>
+              <router-link to="/dashboard/site/journal-head-manage">
+                <span class="nav-text">头部导航</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/journal-cathet-manage">
+                <span class="nav-text">站外导航</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="drop-show" @click="dropdown($event)">
+          <a href="javascript:;">
+            <i class="fa fa-info-circle nav_icon iconfont icon-navicon-wzgl"></i>
+            <span class="nav-text">
+              文章管理
+              <i class="fa fa-angle-right nav_icon"></i>
+            </span>
+            <i class="arrow-right">></i>
+          </a>
+          <ul class="drop-list" @click="$event.cancelBubble=true">
+            <li>
+              <router-link to="/dashboard/site/journal-article-list">
+                <span class="nav-text">文章列表</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/journal-column-manage">
+                <span class="nav-text">栏目管理</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/journal-label-manage">
+                <span class="nav-text">标签管理</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/journal-keyword-replace">
+                <span class="nav-text">关键字替换</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="drop-show" @click="dropdown($event)">
+          <a href="javascript:;">
+            <i class="fa fa-info-circle nav_icon iconfont icon-tuji"></i>
+            <span class="nav-text">
+              图集管理
+              <i class="fa fa-angle-right nav_icon"></i>
+            </span>
+            <i class="arrow-right">></i>
+          </a>
+          <ul class="drop-list" @click="$event.cancelBubble=true">
+            <li>
+              <router-link to="/dashboard/site/journal-atlas-list">
+                <span class="nav-text">图集列表</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/journal-columu-regulate">
+                <span class="nav-text">栏目管理</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li @click="classRemove">
+          <router-link to="/dashboard/site/journal-ad-manage">
+            <i class="nav_icon iconfont icon-gggl"></i>
+            <span class="nav-text">广告管理</span>
+            <i class="arrow-right">></i>
+          </router-link>
+        </li>
+        <li class="drop-show" @click="dropdown($event)">
+          <a href="javascript:;">
+            <i class="fa fa-info-circle nav_icon iconfont icon-tubiao"></i>
+            <span class="nav-text">
+              访客分析
+              <i class="fa fa-angle-right nav_icon"></i>
+            </span>
+            <i class="arrow-right">></i>
+          </a>
+          <ul class="drop-list" @click="$event.cancelBubble=true">
+            <li>
+              <router-link to="/dashboard/site/visit-of-source">
+                <span class="nav-text">访问来源统计</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard/site/access-data">
+                <span class="nav-text">访问数据统计</span>
+                <i class="arrow-right">></i>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li @click="classRemove">
+          <router-link to="/dashboard/site/article-crawl">
+            <i class="fa fa-dashboard (alias) nav_icon iconfont icon-wenzhang"></i>
+            <span class="nav-text">文章抓取</span>
+            <i class="arrow-right">></i>
+          </router-link>
+        </li> 
+        <li @click="classRemove">
+          <router-link to="/dashboard/site/journal-atlas-crawl">
+            <i class="fa fa-dashboard (alias) nav_icon iconfont icon-wangyezhuaqu"></i>
+            <span class="nav-text">图集抓取</span>
+            <i class="arrow-right">></i>
+          </router-link>
+        </li> 
+      </ul>
     </nav>
     <div>
-      
       <div id="content" :key="activeDate">
         <div class="site-title">当前站点：{{site.siteName+"【"+ site.siteDomain +"】"}}</div>
         <router-view></router-view>

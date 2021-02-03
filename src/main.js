@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 
+import loading from './components/common/loading.js' // 引入loading
+Vue.use(loading) // 全局使用loading
+
 Vue.use(VueResource);
 
 Vue.config.productionTip = false
@@ -35,6 +38,7 @@ Vue.use(VueLazyload, {
 //颜色选择器
 import vcolorpicker from 'vcolorpicker'
 Vue.use(vcolorpicker)
+
 
 // import VueUeditorWrap from 'vue-ueditor-wrap'
 // Vue.use(VueUeditorWrap)

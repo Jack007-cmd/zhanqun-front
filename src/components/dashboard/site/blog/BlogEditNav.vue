@@ -125,7 +125,8 @@
           url: '',
           sort: '',
           state: ''
-        }
+        },
+        pid: 0
       }
     },
     methods: {
@@ -179,6 +180,13 @@
           });
           return;
         }
+        if (this.pid==this.update.parent_id) {
+           this.$toast.success({
+            message:"不能将自身作为上级！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
         if (!this.update.url) {
            this.$toast.success({
             message:"请填写链接！",
@@ -227,6 +235,9 @@
         http.getNavDetail({id:id}).then(rs=>{
           if(!rs.code){
             this.update = rs;
+            if(this.update['id']){
+                this.pid = this.update['id'];
+            }
           }
         });
       }

@@ -90,7 +90,7 @@
         }
       },
       toEdit() {
-        this.$router.push("/dashboard/site/ns-edit-nav?type=1"  + "&move=2");
+        this.$router.push("/dashboard/site/journal-nav-add?type=1"  + "&mold=2");
       },
       showChild(item) {
         if (item['parent_id'] === 0) {
@@ -113,7 +113,7 @@
         }
       },
       update(id) {
-        this.$router.push("/dashboard/site/ns-edit-nav?type=2&id=" + id  + "&move=2");
+        this.$router.push("/dashboard/site/journal-nav-add?type=2&id=" + id  + "&mold=2");
       },
       getNavList(){
         http.getNavList({type: 2}).then(rs=>{

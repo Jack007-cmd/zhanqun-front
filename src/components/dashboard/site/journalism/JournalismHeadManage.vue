@@ -10,22 +10,19 @@
       <b-row>
         <b-col cols="11" class="data-items">
           <b-row>
-            <b-col cols="1">序号</b-col>
+            <b-col cols="2">序号</b-col>
             <b-col cols="2">名称</b-col>
             <b-col cols="2">链接</b-col>
-            <b-col cols="2">图标</b-col>
-            <b-col cols="1">排序</b-col>
+            <b-col cols="2">排序</b-col>
             <b-col cols="2">是否显示</b-col>
             <b-col cols="2">操作</b-col>
           </b-row>
-          <b-row v-for="(item,index) in navItems" :id="item.id" :pid="item['parent_id']" :class="{hide_child:item['parent_id']!==0}"
+          <b-row v-for="(item,index) in navItems" :pid="item['parent_id']" :class="{hide_child:item['parent_id']!==0}"
                  @click="showChild(item)" :key="item.id">
-            <b-col cols="1">{{index+1}}</b-col>
-            <b-col cols="2">{{item.name}} <span v-if="item.childlength" class="iconfont icon-xiala-copy"></span></b-col>
-            <!-- <b-col cols="2">{{item.name}} <span v-if="item['parent_id']===0 && navItems[index+1] && navItems[index+1]['parent_id']===item.id" class="iconfont icon-xiala-copy"></span></b-col> -->
+            <b-col cols="2">{{index+1}}</b-col>
+            <b-col cols="2">{{item.name}} <span v-if="item['parent_id']===0 && navItems[index+1] && navItems[index+1]['parent_id']===item.id" class="iconfont icon-xiala-copy"></span></b-col>
             <b-col cols="2" :title="item['url']">{{item['url']}}</b-col>
-            <b-col cols="2"><img  v-if="item['parent_id'] != 0" :src="item['icon']" :key="item['icon']" alt="" width="30" height="30"></b-col>
-            <b-col cols="1"><input type="number" v-model="item.sort" min="0" @change="updateNavSort(item.id,item.sort)"> </b-col>
+            <b-col cols="2"><input type="number" v-model="item.sort" min="0" @change="updateNavSort(item.id,item.sort)"> </b-col>
             <b-col cols="2">
               <span  @mouseover="getCurrentItem(item)">
                 <switchc v-model="item.state" text="on|off" @change="getData"></switchc>
@@ -54,7 +51,7 @@
 import * as http from '../../../../../apis/site'
 import SwitchComponent from '../../../common/SwitchComponent'
   export default {
-    name: "LotteryHeadManage",
+    name: "TradeHeadManage",
     components: {
       'switchc': SwitchComponent
     },
@@ -69,17 +66,14 @@ import SwitchComponent from '../../../common/SwitchComponent'
         this.$router.go(-1);//返回上一层
       },
       showChild(item) {
-        // if (item['parent_id'] === 0) {
-          let tRow = $(".row[pid='" + item.id + "']");          
+        if (item['parent_id'] === 0) {
+          let tRow = $(".row[pid='" + item.id + "']");
           if (tRow.hasClass("show_child")) {
             tRow.removeClass("show_child").addClass("hide_child");
-            for(let i=0;i<tRow.length;i++){
-              $(".row[pid='" + tRow[i].id + "']").removeClass("show_child").addClass("hide_child");    
-            }
           } else {
             tRow.removeClass("hide_child").addClass("show_child");
           }
-        // }
+        }
       },
       getCurrentItem(item){
         this.currentItem = item;
@@ -118,10 +112,10 @@ import SwitchComponent from '../../../common/SwitchComponent'
         }
       },
       toEdit(){
-        this.$router.push("/dashboard/site/lottery-nav-add?type=1&mold=0");
+        this.$router.push("/dashboard/site/journal-nav-add?type=1&mold=0");
       },
       update(id) {
-        this.$router.push("/dashboard/site/lottery-nav-add?type=2&id=" + id);
+        this.$router.push("/dashboard/site/journal-nav-add?type=2&id=" + id);
       },
       itemSort(temp) {
         let all = [];
@@ -132,21 +126,11 @@ import SwitchComponent from '../../../common/SwitchComponent'
         });
         temp.forEach(a => {
           all.forEach((b, i) => {
-            if (b.id === a['parent_id'] ) {
-              b.childlength=b.childlength?(b.childlength+1):1;              
+            if (b.id === a['parent_id']) {
               all.splice(i + 1, 0, a);
             }
           });
         });
-        temp.forEach(c => {
-            all.forEach((d, j) => {
-                if (all.indexOf(c)===-1 && d.id === c['parent_id'] && c['parent_id']!==0) {
-                  d.childlength=d.childlength?(d.childlength+1):1;              
-                  all.splice(j + 1, 0, c);
-                }
-            });      
-        });
-
         return all;
       },
       updateNavSort(id, sort) {

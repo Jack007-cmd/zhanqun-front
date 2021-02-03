@@ -222,7 +222,7 @@ import SwitchComponent from '../../../common/SwitchComponent'
       width: 70px;
     }
     input{
-        width: 32px;
+        width: 37px;
         height: 30px;
         line-height: 30px;
         background: #eeeeee;

@@ -45,7 +45,7 @@
               </td>
             </tr>
           </table>
-          <div style="padding-left: 45%; float: left;">
+          <div style="margin-left:38%">
             <b-button @click="createAd">确定</b-button>
             <b-button @click="back">返回</b-button>
           </div>
@@ -58,7 +58,7 @@
             <tr>
               <td>位置:<span style="color:red;">*</span></td>
               <td>
-                <b-form-select disabled v-model="update['position_id']" :options="positionOptions"></b-form-select>
+                <b-form-select v-model="update['position_id']" :options="positionOptions"></b-form-select>
               </td>
             </tr>
             <tr>
@@ -90,7 +90,7 @@
               </td>
             </tr>
           </table>
-          <div style="padding-left: 45%; float: left;">
+          <div style="margin-left:38%">
             <b-button @click="updateAd">确定</b-button>
             <b-button @click="back">返回</b-button>
           </div>
@@ -112,7 +112,7 @@
   import * as http from '../../../../../apis/site'
 
   export default {
-    name: "LotteryAdEdit",
+    name: "TradeAdEdit",
     data() {
       return {
         plate: 'a',
@@ -130,7 +130,7 @@
           url: '',
           state: '',
           img: '',
-          //     identify	广告标识（位置）	是	[string]
+          // identify	广告标识（位置）	是	[string]
           // 2	image	广告图	是	[file]
           // 3	url	广告图URL	是	[string]
           // 4	state	广告图状态
@@ -148,7 +148,7 @@
           // 3	url	广告图URL	是	[string]
           // 4	state	广告图状态
         },
-        positionOptions:[{text:'请选择位置',value: null},]
+        positionOptions: [{text: '请选择位置', value: null},]
       }
     },
     methods: {
@@ -156,6 +156,34 @@
         this.$router.go(-1);//返回上一层
       },
       createAd() {
+        if (!this.ad['position_id']) {
+           this.$toast.success({
+            message:"请选择位置！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        if (!this.ad['image']) {
+           this.$toast.success({
+            message:"请上传图片！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        // if (!this.ad['url']) {
+        //    this.$toast.success({
+        //     message:"请填写链接！",
+        //     color:'#3cb5f1'
+        //   });
+        //   return;
+        // }
+        if (this.ad['state']==='') {
+           this.$toast.success({
+            message:"请选择状态！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
         let formData = new FormData();
         formData.append("position_id", this.ad['position_id']);
         formData.append("image", this.ad.image);
@@ -172,6 +200,34 @@
         });
       },
       updateAd() {
+         if (!this.update['position_id']) {
+           this.$toast.success({
+            message:"请选择位置！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        if (!this.update['img']) {
+           this.$toast.success({
+            message:"请上传图片！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        // if (!this.update['url']) {
+        //    this.$toast.success({
+        //     message:"请填写链接！",
+        //     color:'#3cb5f1'
+        //   });
+        //   return;
+        // }
+        if (this.update['state']==='') {
+           this.$toast.success({
+            message:"请选择状态！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
         let formData = new FormData();
         formData.append("id", this.update.id);
         formData.append("position_id", this.update['position_id']);
@@ -196,7 +252,6 @@
             rs.forEach(v => {
               this.positionOptions.push({text: v.name, value: v.id});
             });
-
           }
         });
       },
@@ -286,7 +341,7 @@
     padding-top: 30px;
 
     table {
-      width: 40%;
+      width: 60%;
 
       tr {
         td:first-child {
@@ -315,11 +370,15 @@
     }
 
     button {
-      margin-top: 30px;
+      float: left;
+      margin: 30px;
       background: #099ae6;
       border: none;
       width: 100px;
-      margin-left: 30px;
+    }
+
+    .line-title {
+      color: #099ae6;
     }
 
     i {

@@ -302,7 +302,10 @@
             break;       
           case 10:
             destination = "/dashboard/site/company-basic-info";
-            break;               
+            break;     
+          case 11:
+            destination = "/dashboard/site/journal-basic-info";
+            break;         
           default:
             destination = "/dashboard/site";
         }

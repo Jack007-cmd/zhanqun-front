@@ -479,14 +479,14 @@ export default {
 }
 
 .sidebar-wrapper .sidebar-menu ul li:hover > a {
-  background: #3cb5f1;
+  background: #2a94de;
   color: #fff !important;
 }
 
 .router-link-active {
   /*color: #3cb5f1 !important;*/
   /*background: #333333;*/
-  background: #3cb5f1;
+  background: #2a94de;
   color: #fff !important;
 }
 

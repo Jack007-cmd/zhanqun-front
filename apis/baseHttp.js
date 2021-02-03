@@ -5,19 +5,22 @@ let root = process.env.API_ROOT;
 /**
  * GET请求,将url和请求参数传入，通过Promise，将成功和失败的数据派发出去
  * @param url
- * @param params
+ * @param paramsis
  * @returns {Promise}
  */
 export function getHttp(url, params) {
     return new Promise((resolve, reject) => {
+        Vue.$loading.show()
         vue.$http({
             url: root + url,
             params: params,
             method: 'GET'
         }).then(rs => {
             resolve(rs.body)
+            Vue.$loading.hide()
         }, err => {
             reject(err.bodyText)
+            Vue.$loading.hide()
         })
     })
 }
@@ -30,6 +33,7 @@ export function getHttp(url, params) {
  */
 export function getHttpAuth(url, params = {}) {
     return new Promise((resolve, reject) => {
+        Vue.$loading.show()
         vue.$http({
             url: root + url,
             params: params,
@@ -42,8 +46,10 @@ export function getHttpAuth(url, params = {}) {
             method: 'GET'
         }).then(rs => {
             resolve(rs.body)
+            Vue.$loading.hide()
         }, err => {
             reject(err.bodyText)
+            Vue.$loading.hide()
         })
     })
 }
@@ -56,7 +62,9 @@ export function getHttpAuth(url, params = {}) {
  * @returns {Promise}
  */
 export function postHttp(url, body, params) {
+    let that = this;
     return new Promise((resolve, reject) => {
+        Vue.$loading.show()
         vue.$http({
             url: root + url,
             params: params,
@@ -69,8 +77,10 @@ export function postHttp(url, body, params) {
             method: 'POST'
         }).then(rs => {
             resolve(rs.body)
+            Vue.$loading.hide()
         }, err => {
             reject(err.bodyText)
+            Vue.$loading.hide()
         })
     })
 }
@@ -84,6 +94,7 @@ export function postHttp(url, body, params) {
  */
 export function postHttpAuth(url, body, params) {
     return new Promise((resolve, reject) => {
+        Vue.$loading.show()
         vue.$http({
             url: root + url,
             params: params,
@@ -97,8 +108,10 @@ export function postHttpAuth(url, body, params) {
             method: 'POST'
         }).then(rs => {
             resolve(rs.body)
+            Vue.$loading.hide()
         }, err => {
             reject(err.bodyText)
+            Vue.$loading.hide()
         })
     })
 }

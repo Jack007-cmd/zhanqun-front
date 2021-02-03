@@ -79,7 +79,7 @@
                         style="margin-top:0"
                       >进入后台</span>
                       <span v-if="item.state!==1" @click="toAdministratDomain(item.id)">域名管理</span>
-                      <span @click="toUpdate(item.id)">基础设置</span>
+                      <span @click="toUpdate(item.id,item.template_path)">基础设置</span>
                       <span v-if="item.state!==1" @click="toAppendMember(item.id)">添加成员</span>
                     </div>
                   </b-media>
@@ -259,8 +259,8 @@ export default {
     back() {
       this.$router.go(-1); //返回上一层
     },
-    toUpdate(id) {
-      this.$router.push("/dashboard/my-group/update-site?id=" + id);
+    toUpdate(id,path) {
+      this.$router.push("/dashboard/my-group/update-site?id=" + id + "&path=" + path);
     },
     queryData() {
       if (this.cpage !== 1) {
@@ -383,6 +383,9 @@ export default {
           break;
         case 10:
           destination = "/dashboard/site/company-basic-info";
+          break;
+        case 11:
+          destination = "/dashboard/site/journal-basic-info";
           break;
         default:
           destination = "/dashboard/site";

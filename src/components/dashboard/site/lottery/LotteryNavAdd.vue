@@ -225,7 +225,8 @@
         color:'#9ea2ab',
         fontbShow:false,
         select: 16,
-        mold: 0
+        mold: 0,
+        pid: 0
       }
     },
     methods: {
@@ -292,6 +293,13 @@
         if (!this.update.name) {
            this.$toast.success({
             message:"请填写名称！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        if (this.pid==this.update.parent_id) {
+           this.$toast.success({
+            message:"不能将自身作为上级！",
             color:'#3cb5f1'
           });
           return;
@@ -426,6 +434,9 @@
               let m = this.update['font_style'].lastIndexOf(":");
               let n = this.update['font_style'].lastIndexOf("!");
               this.color = (this.update['font_style']).substring(m+1,n);
+            }
+            if(this.update['id']){
+                this.pid = this.update['id'];
             }
           }
         });

@@ -3,38 +3,29 @@
     <b-container fluid>
       <b-row>
         <b-col cols="12" class="plate-title">
-          <span style="color:#099ae6;border-bottom:3px solid #099ae6;">文章抓取</span>
+          <span class="on">娱乐图集抓取</span>
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="11" class="mtb30">
-          <b-row>
-            <b-form inline style="width:100%;justify-content: space-between;">
+          <b-row style="position:relative;">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="请输入文章标题/文章关键字" v-model="search" @change="queryData">
+                <input type="text" class="form-control" placeholder="请输入图集标题" v-model="search" @change="queryData">
                 <span class="input-group-addon glyphicon glyphicon-search" @click="queryData"></span>
               </div>
               <!-- 资讯分类 -->
               <div class="classify">
-                <span style="color: #333;">资讯分类：</span>
-                <treeselect v-model="selected" style="width: 180px;" :multiple="false" :options="options" />
                 <b-button class="clfy-btn" @click="release">一键发布</b-button>
               </div>
-            </b-form>
           </b-row>
           <div class="leaf-items">
             <b-row>
               <b-col cols="1">序号</b-col>
               <b-col cols="2">抓取时间</b-col>
-              <b-col cols="2">文章关键字</b-col>
-              <b-col cols="3">文章标题</b-col>
+              <b-col cols="2">图集关键字</b-col>
+              <b-col cols="3">图集标题</b-col>
               <b-col cols="2">抓取地址</b-col>
-              <b-col cols="2" class="ck-all">
-                <label for="fxckbox" class="fx">
-                    <input type="checkbox" class="ckbox" id="fxckbox" @click="getCheckedAll()" :checked="checkedAll"/>
-                    <span>全选</span>
-                </label>
-              </b-col>
+              <b-col cols="2">操作</b-col>
             </b-row>
             <b-row v-for="(item,index) in leafItems" :key="item.id">
               <!--id	单页id	是	[int]	查看-->
@@ -43,22 +34,15 @@
               <!--6	 sort	排序	是	[int]	查看-->
               <!--7	 created_at	创建时间	是	[string]	查看-->
               <!--8	 updated_at	修改时间-->
-              <b-col cols="1">{{item.id}}</b-col>
-              <b-col cols="2">{{item.created_at}}</b-col>
-              <b-col cols="2"><div class="seo_item">{{item.keywords}}</div></b-col>
-              <b-col cols="3"><div class="seo_item" :title="item.title">{{item.title}}</div></b-col>
-              <b-col cols="2"><div class="seo_item" :title="item.source_url"><a target="_blank"  :href="item.source_url">{{item.source_url}}</a></div></b-col>
-              <b-col cols="2" style="display:flex;justify-content:center;align-items:center;">
-               <input type="checkbox" :name="item.id" :id="item.id" class="ckbox" @click="getChecked(item.id)" :checked="selectList.indexOf(item.id)==-1?false:true">
-               <!-- <b-form-checkbox 
-                :id = "'checkbox-'+ index"  
-                :name = "'checkbox-'+ index"
-                style="display: flex;justify-content:center;align-items:center;"
-                >
-                </b-form-checkbox> -->
+              <b-col cols="1">{{item['id']}}</b-col>
+              <b-col cols="2">{{item['created_at']}}</b-col>
+              <b-col cols="2"><div class="seo_item">{{item['keywords']}}</div></b-col>
+              <b-col cols="3"><div class="seo_item" :title="item['title']">{{item['title']}}</div></b-col>
+              <b-col cols="2"><div class="seo_item" :title="item['source_url']"><a target="_blank"  :href="item['source_url']">{{item['source_url']}}</a></div></b-col>
+              <b-col cols="2" class="seo_cl">
+               <input type="checkbox" :name="item.id" :id="item.id" class="ckbox" @click="getChecked(item.id)" :checked="selectList.indexOf(item.id)!=-1">
               </b-col>
             </b-row>
-            <div class="total-number" style="font-size:14px;">共：{{total}}条数据</div>
             <div v-if="totalPage>1" style="margin-top: 50px;">
               <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPage" use-router
                                 align="center"></b-pagination-nav>
@@ -91,14 +75,11 @@
         leafItems: [ ],
         totalPage: 0,
         cpage: 1,
-        total:0,
         update:{
           name:'',
           keywords:'',
           description:''
         },
-        checkedAll:false,
-        checkedNum: 0,
         selected:'',
         selectList: [],
         options:[{id: '', label: '请选择分类'}],
@@ -108,7 +89,7 @@
     mounted() {
       this.siteType = this.$store.getters.site['mainLevel'];
       this.fetchData();
-      this.getCategoryList();
+      // this.getCategoryList();
     },
     watch: {
       '$route': 'fetchData'
@@ -140,16 +121,15 @@
       },
       getLeafList() {
         let params = {
-          page: this.cpage
+          page: this.cpage,
+          type:1
         };
         if (this.search) {
           params['title'] = this.search;
         }
-        http.getArticle(params).then(rs => {
+        http.getAtlas(params).then(rs => {
           if (!rs.code) {
             this.leafItems = rs.data;
-            this.judgeSelectList();
-            this.total = rs.total;
             this.totalPage = Math.ceil(rs.total / 15);
           }
         });
@@ -161,50 +141,15 @@
               this.selectList.push(id);
           }
       },
-      getCheckedAll(){
-        this.checkedAll = !this.checkedAll;
-        if(this.checkedAll){
-          this.addSelectList();
-        }else{
-          this.deleteSelectList();
-        }
-      },
-      addSelectList(){
-        for(let i=0;i<this.leafItems.length;i++){
-          if(this.selectList.indexOf(this.leafItems[i].id)==-1){
-            this.selectList.push(this.leafItems[i].id);
-          }
-        }
-      },
-      deleteSelectList(){
-        for(let i=0;i<this.leafItems.length;i++){
-          if(this.selectList.indexOf(this.leafItems[i].id)!=-1){
-            this.selectList.splice(this.selectList.indexOf(this.leafItems[i].id),1);
-          }
-        }
-      },
-      judgeSelectList(){
-        this.checkedNum = 0;
-        for(let i=0;i<this.leafItems.length;i++){
-          if(this.selectList.indexOf(this.leafItems[i].id)!=-1){
-            this.checkedNum++;
-          }
-        }
-        if(this.checkedNum<this.leafItems.length){
-          this.checkedAll = false;
-        }else {
-          this.checkedAll = true;
-        }
-      },
       release(){//一键发布
         var that = this;
-        if(!that.selected){
-          that.$toast.success({ 
-            message:"请选择资讯分类",
-            color:'#3cb5f1'
-          });
-          return;
-        }
+        // if(!that.selected){
+        //   that.$toast.success({ 
+        //     message:"请选择资讯分类",
+        //     color:'#3cb5f1'
+        //   });
+        //   return;
+        // }
         if(that.selectList.length<1){
           that.$toast.success({
             message:"请选择发布文章",
@@ -212,14 +157,13 @@
           });
           return;
         }
-        http.setArticleRelease({category_id: that.selected,sys_article_ids: that.selectList}).then(rs =>{
+        // http.setAtlasRelease({category_id: that.selected,sys_atlas_ids: that.selectList}).then(rs =>{
+        http.setAtlasRelease({sys_atlas_ids: that.selectList}).then(rs =>{
           if (rs.success) {
               that.$toast.success({
                 message:"发布成功!",
                 color:'#3cb5f1'
               });
-              that.getLeafList();
-              that.selectList = [];
           }else{
               that.$toast.success({
                 message:"网络异常!",
@@ -229,7 +173,7 @@
         })
       },
       getCategoryList(){
-         http.getAllArticleCategory().then(rs => {
+         http.getAllAtlasCategory().then(rs => {
           if (!rs.code) {
            if(this.siteType === 1){
                 rs.forEach(t1 => {
@@ -360,28 +304,6 @@
  
       .col-1, .col-2 {
         padding: 0;
-        overflow: hidden;
-      }
-      .ck-all{
-        display:flex;
-        justify-content: center;
-        align-items: center
-      }
-      .fx{
-        height: 42px;
-        display: block;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-sizing: border-box;
-        overflow: hidden;
-        margin-bottom: 0!important;
-        span{
-              color: #555;
-              font-size: 16px;
-              margin-left: 5px;
-        }
       }
     }
 
@@ -410,6 +332,11 @@
       font-size: 14px;
       width: 70px;
     }
+    .seo_cl{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
     .seo_item{
       width: 100%;
       height: 50px;
@@ -429,21 +356,23 @@
   }
 
   .classify{
+      position: absolute;
+      right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       .clfy-btn{
         padding: 0;
         margin-left: 10px;
-        border: 1px solid #3cb5f1;
-        background: #3cb5f1 !important;
+        border: 1px solid #ddd;
+        background: #ffffff !important;
         width: 85px;
         height: 36px;
         box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: #333;
         border-radius: 5px;
         outline: none;
       }
@@ -452,7 +381,7 @@
       //   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)!important;
       // }
       .btn-secondary:hover{
-        color: #fff !important;
+        color: #333 !important;
       }
   }
 
@@ -466,6 +395,7 @@
     position: relative;
     display: table;
     border-collapse: separate;
+    width: auto;
   }
 
   .input-group .form-control {

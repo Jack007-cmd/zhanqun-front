@@ -2013,3 +2013,68 @@ export function setAtlasRelease(body) {
     let url = '/v1/user/web/atlas/release';
     return postHttpAuth(url, body);
 }
+
+/**
+ * POST
+ * 系统图集抓取发布
+ * @param body
+ * @returns {Promise}
+ * /v1/user/web/article/release
+ */
+export function materialUpload(body) {
+    let url = '/v1/user/material/upload';
+    return postHttpAuth(url, body);
+}
+
+/**
+ * GET
+ * 系统图集分类列表（所有）
+ * @returns {Promise}
+ */
+export function getAllAtlas() {
+    let url = '/v1/user/web/atlas/category/all';
+    return getHttpAuth(url);
+}
+
+/**
+ * POST
+ * 系统图集分类（栏目）创建
+ * @param body
+ * @returns {Promise}
+ */
+export function createAtlasCategory(body) {
+    let url = '/v1/user/web/atlas/category/create';
+    return postHttpAuth(url, body);
+}
+
+/**
+ * GET
+ * 系统图集分类(栏目)列表
+ * @returns {Promise}
+ */
+export function getAtlasCategoryDetail(params) {
+    let url = '/v1/user/web/atlas/category/detail';
+    return getHttpAuth(url, params);
+}
+
+/**
+ * POST
+ * 系统图集分类更新
+ * @param body
+ * @returns {Promise}
+ */
+export function updateAtlasCategory(body) {
+    let url = '/v1/user/web/atlas/category/update';
+    return postHttpAuth(url, body);
+}
+
+/**
+ * POST
+ * 站点文章分类删除
+ * @param body
+ * @returns {Promise}
+ */
+export function deleteAtlasCategory(body) {
+    let url = '/v1/user/web/atlas/category/delete';
+    return postHttpAuth(url, body);
+}

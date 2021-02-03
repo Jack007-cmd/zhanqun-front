@@ -20,11 +20,8 @@ const ResetMail = () =>
     import ('@/components/ResetMail.vue');
 const ResetActivate = () =>
     import ('@/components/ResetActivate.vue');
-
-
 const Dashboard = () =>
     import ('@/components/Dashboard.vue');
-
 const Info = () =>
     import ('@/components/dashboard/Info.vue');
 const Home = () =>
@@ -255,12 +252,8 @@ const NewsCathetManage = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsCathetManage.vue');    
 const NewsArticleList = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsArticleList.vue');
-const NewsAtlasList = () =>
-    import ('@/components/dashboard/site/newsWebsite/NewsAtlasList.vue');
 const NewsArticleAdd = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsArticleAdd.vue');
-const NewsAtlasAdd = () =>
-    import ('@/components/dashboard/site/newsWebsite/NewsAtlasAdd.vue');
 const NewsEditNav = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsEditNav.vue');
 const NewsSortManage = () =>
@@ -307,8 +300,6 @@ const NewsEditDividend = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsEditDividend.vue');
 const NewsDividendSortManage = () =>
     import ('@/components/dashboard/site/newsWebsite/NewsDividendSortManage.vue');
-const NewsAtlasCrawl = () =>
-    import ('@/components/dashboard/site/newsWebsite/NewsAtlasCrawl.vue');
 /*行业新闻子栏目组件*/
 const TradeBasicInfo = () =>
     import ('@/components/dashboard/site/tradeNews/TradeBasicInfo.vue');
@@ -316,6 +307,8 @@ const TradeHeadManage = () =>
     import ('@/components/dashboard/site/tradeNews/TradeHeadManage.vue');
 const TradeFooterManage = () =>
     import ('@/components/dashboard/site/tradeNews/TradeFooterManage.vue');
+const TradeCathetManage = () =>
+    import ('@/components/dashboard/site/tradeNews/TradeCathetManage.vue');
 const TradeNavAdd = () =>
     import ('@/components/dashboard/site/tradeNews/TradeNavAdd.vue');
 const TradeArticleList = () =>
@@ -346,7 +339,6 @@ const TradeAdEdit = () =>
     import ('@/components/dashboard/site/tradeNews/TradeAdEdit.vue');
 const TradeCommentManage = () =>
     import ('@/components/dashboard/site/tradeNews/TradeCommentManage.vue');
-
 /*登录口子栏目组件*/
 const LeafBasicInfo = () =>
     import ('@/components/dashboard/site/leaf/LeafBasicInfo.vue');
@@ -420,7 +412,41 @@ const CompanyChainEdit = () =>
     import ('@/components/dashboard/site/company/CompanyChainEdit.vue');
 const CompanyProductAdd = () =>
     import ('@/components/dashboard/site/company/CompanyProductAdd.vue');
-
+/*新闻站子栏目组件*/ 
+const JournalismBasicInfo = () =>
+    import ('@/components/dashboard/site/journalism/JournalismBasicInfo.vue');
+const JournalismHeadManage = () =>
+    import ('@/components/dashboard/site/journalism/JournalismHeadManage.vue');
+const JournalismCathetManage = () =>
+    import ('@/components/dashboard/site/journalism/JournalismCathetManage.vue');
+const JournalismNavAdd = () =>
+    import ('@/components/dashboard/site/journalism/JournalismNavAdd.vue');
+const JournalismArticleList = () =>
+    import ('@/components/dashboard/site/journalism/JournalismArticleList.vue');
+const JournalismArticleAdd = () =>
+    import ('@/components/dashboard/site/journalism/JournalismArticleAdd.vue');
+const JournalismColumnManage = () =>
+    import ('@/components/dashboard/site/journalism/JournalismColumnManage.vue');
+const JournalismColumnEdit = () =>
+    import ('@/components/dashboard/site/journalism/JournalismColumnEdit.vue');
+const JournalismLabelManage = () =>
+    import ('@/components/dashboard/site/journalism/JournalismLabelManage.vue');
+const JournalismKeywordReplace = () =>
+    import ('@/components/dashboard/site/journalism/JournalismKeywordReplace.vue');
+const JournalismAtlasList = () =>
+    import ('@/components/dashboard/site/journalism/JournalismAtlasList.vue');
+const JournalismColumuRegulate = () =>
+    import ('@/components/dashboard/site/journalism/JournalismColumuRegulate.vue');
+const JournalismColumuRedact = () =>
+    import ('@/components/dashboard/site/journalism/JournalismColumuRedact.vue');
+const JournalismAtlasAdd = () =>
+    import ('@/components/dashboard/site/journalism/JournalismAtlasAdd.vue');
+const JournalismAdManage = () =>
+    import ('@/components/dashboard/site/journalism/JournalismAdManage.vue');
+const JournalismAdEdit = () =>
+    import ('@/components/dashboard/site/journalism/JournalismAdEdit.vue');
+const JournalismAtlasCrawl = () =>
+    import ('@/components/dashboard/site/journalism/JournalismAtlasCrawl.vue');
 
 export default new Router({
     mode: 'history',
@@ -987,16 +1013,8 @@ export default new Router({
                             component: NewsArticleList
                         },
                         {
-                            path: 'ns-atlas-list',
-                            component: NewsAtlasList
-                        },
-                        {
                             path: 'ns-article-add',
                             component: NewsArticleAdd
-                        },
-                        {
-                            path: 'ns-atlas-add',
-                            component: NewsAtlasAdd
                         },
                         {
                             path: 'ns-edit-nav',
@@ -1091,10 +1109,6 @@ export default new Router({
                             path: 'ns-dividend-sort-manage',
                             component: NewsDividendSortManage
                         },
-                        {
-                            path: 'ns-atlas-crawl',
-                            component: NewsAtlasCrawl
-                        },
                         /*行业新闻子栏目组件*/
                         {
                             path: 'trade-basic-info',
@@ -1107,6 +1121,10 @@ export default new Router({
                         {
                             path: 'trade-footer-manage',
                             component: TradeFooterManage
+                        },
+                        {
+                            path: 'trade-cathet-manage',
+                            component: TradeCathetManage
                         },
                         {
                             path: 'trade-nav-add',
@@ -1306,7 +1324,77 @@ export default new Router({
                         {
                             path: 'company-chain-edit',
                             component: CompanyChainEdit
-                        }
+                        },
+                        /*新闻站子栏目组件*/
+                        {
+                            path: 'journal-basic-info',
+                            component: JournalismBasicInfo
+                        },
+                        {
+                            path: 'journal-head-manage',
+                            component: JournalismHeadManage
+                        },
+                        {
+                            path: 'journal-cathet-manage',
+                            component: JournalismCathetManage
+                        },
+                        {
+                            path: 'journal-nav-add',
+                            component: JournalismNavAdd
+                        },
+                        {
+                            path: 'journal-article-list',
+                            component: JournalismArticleList
+                        },
+                        {
+                            path: 'journal-article-add',
+                            component: JournalismArticleAdd
+                        },
+                        {
+                            path: 'journal-column-manage',
+                            component: JournalismColumnManage
+                        },
+                        {
+                            path: 'journal-column-edit',
+                            component: JournalismColumnEdit
+                        },
+
+                        {
+                            path: 'journal-label-manage',
+                            component: JournalismLabelManage
+                        },
+                        {
+                            path: 'journal-keyword-replace',
+                            component: JournalismKeywordReplace
+                        },
+                        {
+                            path: 'journal-atlas-list',
+                            component: JournalismAtlasList
+                        },
+                        {
+                            path: 'journal-columu-regulate',
+                            component: JournalismColumuRegulate
+                        },
+                        {
+                            path: 'journal-columu-redact',
+                            component: JournalismColumuRedact
+                        },
+                        {
+                            path: 'journal-atlas-add',
+                            component: JournalismAtlasAdd
+                        },
+                        {
+                            path: 'journal-ad-manage',
+                            component: JournalismAdManage
+                        },
+                        {
+                            path: 'journal-ad-edit',
+                            component: JournalismAdEdit
+                        },
+                        {
+                            path: 'journal-atlas-crawl',
+                            component: JournalismAtlasCrawl
+                        },
                     ]
                 },
             ]

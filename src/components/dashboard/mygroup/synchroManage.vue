@@ -201,9 +201,8 @@ export default {
   },
   data() {
     return {
-      totalPage: 0,
+      totalPage: 1,
       cpage: 1,
-      total: 0,
       synchroList: [],
       addTypeVal: "",
       addMainVal: "",
@@ -244,7 +243,11 @@ export default {
           key = i;
         }
       }
-      key += 1;
+      if(key>6){
+          key += 2;
+      }else{
+          key += 1;
+      }
       this.setTypeVal = key;
       this.setMainVal = item.id;
       this.getSynchroMainSetUpWebs(key);
@@ -451,16 +454,16 @@ export default {
     },
     //加载数据源
     getWebSynchron() {
+      let that = this;
+      that.cpage = that.cpage || Number(that.$route.query.page) || 1;
       let params = {
-        per_page: 10
-        ,
-        page: this.cpage
+        per_page: 10,
+        page: that.cpage
       };
       http.getWebSynchron(params).then(rs => {
         if (!rs.code) {
-          this.synchroList = rs.data;
-          this.total = rs.total;
-          this.totalPage = Math.ceil(rs.total / 10);
+          that.synchroList = rs.data;
+          that.totalPage = Math.ceil(rs.total / 10);
         }
       });
     },
@@ -483,7 +486,7 @@ export default {
     }
   },
   mounted() {
-    this.getWebSynchron();
+    this.fetchData();
     this.getTypeList();
   },
   watch: {

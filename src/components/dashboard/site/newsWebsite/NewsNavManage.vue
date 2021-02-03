@@ -229,7 +229,7 @@
     }
 
     input {
-      width: 34px;
+      width: 37px;
       height: 30px;
       line-height: 30px;
       background: #eeeeee;

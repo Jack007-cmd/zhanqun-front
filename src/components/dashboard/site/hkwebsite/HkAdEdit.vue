@@ -11,13 +11,13 @@
         <b-col cols="12">
           <table cellpadding="12">
             <tr>
-              <td>位置:</td>
+              <td>位置:<span style="color:red;">*</span></td>
               <td>
                 <b-form-select v-model="ad['position_id']" :options="positionOptions"></b-form-select>
               </td>
             </tr>
             <tr>
-              <td>图片:</td>
+              <td>图片:<span style="color:red;">*</span></td>
               <td>
                 <label class="btn btn-orange" for="upload"
                        style="display:inline-block;width: 70px;padding: 0;text-align: center;line-height: 28px;">
@@ -33,7 +33,7 @@
               <td><input type="text" v-model="ad.url"></td>
             </tr>
             <tr>
-              <td>状态:</td>
+              <td>状态:<span style="color:red;">*</span></td>
               <td>
                 <b-form-group>
                   <b-form-radio-group
@@ -56,13 +56,13 @@
         <b-col cols="12">
           <table cellpadding="12">
             <tr>
-              <td>位置:</td>
+              <td>位置:<span style="color:red;">*</span></td>
               <td>
                 <b-form-select disabled v-model="update['position_id']" :options="positionOptions"></b-form-select>
               </td>
             </tr>
             <tr>
-              <td>图片:</td>
+              <td>图片:<span style="color:red;">*</span></td>
               <td>
                 <label class="btn btn-orange" for="uploads"
                        style="display:inline-block;width: 70px;padding: 0;text-align: center;line-height: 28px;">
@@ -78,7 +78,7 @@
               <td><input type="text" v-model="update.url"></td>
             </tr>
             <tr>
-              <td>状态:</td>
+              <td>状态:<span style="color:red;">*</span></td>
               <td>
                 <b-form-group>
                   <b-form-radio-group

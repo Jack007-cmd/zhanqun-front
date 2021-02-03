@@ -3,31 +3,29 @@
     <b-container fluid>
       <b-row>
         <b-col cols="12" class="plate-title">
-          <span style="color:#099ae6;border-bottom:3px solid #099ae6;">文章抓取</span>
+          <span style="color:#099ae6;border-bottom:3px solid #099ae6;">娱乐图集抓取</span>
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="11" class="mtb30">
-          <b-row>
-            <b-form inline style="width:100%;justify-content: space-between;">
+          <b-row style="position:relative;">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="请输入文章标题/文章关键字" v-model="search" @change="queryData">
+                <input type="text" class="form-control" placeholder="请输入图集标题/图集关键字" v-model="search" @change="queryData">
                 <span class="input-group-addon glyphicon glyphicon-search" @click="queryData"></span>
               </div>
               <!-- 资讯分类 -->
               <div class="classify">
-                <span style="color: #333;">资讯分类：</span>
+                <span style="color: #333;">图集栏目：</span>
                 <treeselect v-model="selected" style="width: 180px;" :multiple="false" :options="options" />
                 <b-button class="clfy-btn" @click="release">一键发布</b-button>
               </div>
-            </b-form>
           </b-row>
           <div class="leaf-items">
             <b-row>
               <b-col cols="1">序号</b-col>
               <b-col cols="2">抓取时间</b-col>
-              <b-col cols="2">文章关键字</b-col>
-              <b-col cols="3">文章标题</b-col>
+              <b-col cols="2">图集关键字</b-col>
+              <b-col cols="3">图集标题</b-col>
               <b-col cols="2">抓取地址</b-col>
               <b-col cols="2" class="ck-all">
                 <label for="fxckbox" class="fx">
@@ -43,23 +41,17 @@
               <!--6	 sort	排序	是	[int]	查看-->
               <!--7	 created_at	创建时间	是	[string]	查看-->
               <!--8	 updated_at	修改时间-->
-              <b-col cols="1">{{item.id}}</b-col>
-              <b-col cols="2">{{item.created_at}}</b-col>
-              <b-col cols="2"><div class="seo_item">{{item.keywords}}</div></b-col>
-              <b-col cols="3"><div class="seo_item" :title="item.title">{{item.title}}</div></b-col>
-              <b-col cols="2"><div class="seo_item" :title="item.source_url"><a target="_blank"  :href="item.source_url">{{item.source_url}}</a></div></b-col>
-              <b-col cols="2" style="display:flex;justify-content:center;align-items:center;">
-               <input type="checkbox" :name="item.id" :id="item.id" class="ckbox" @click="getChecked(item.id)" :checked="selectList.indexOf(item.id)==-1?false:true">
-               <!-- <b-form-checkbox 
-                :id = "'checkbox-'+ index"  
-                :name = "'checkbox-'+ index"
-                style="display: flex;justify-content:center;align-items:center;"
-                >
-                </b-form-checkbox> -->
+              <b-col cols="1">{{item['id']}}</b-col>
+              <b-col cols="2">{{item['created_at']}}</b-col>
+              <b-col cols="2"><div class="seo_item">{{item['keywords']}}</div></b-col>
+              <b-col cols="3"><div class="seo_item" :title="item['title']">{{item['title']}}</div></b-col>
+              <b-col cols="2"><div class="seo_item" :title="item['source_url']"><a target="_blank"  :href="item['source_url']">{{item['source_url']}}</a></div></b-col>
+              <b-col cols="2" class="seo_cl">
+               <input type="checkbox" :name="item.id" :id="item.id" class="ckbox" @click="getChecked(item.id)" :checked="selectList.indexOf(item.id)!=-1">
               </b-col>
             </b-row>
             <div class="total-number" style="font-size:14px;">共：{{total}}条数据</div>
-            <div v-if="totalPage>1" style="margin-top: 50px;">
+            <div v-if="totalPage>1" style="margin-top: 30px;">
               <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPage" use-router
                                 align="center"></b-pagination-nav>
             </div>
@@ -101,8 +93,8 @@
         checkedNum: 0,
         selected:'',
         selectList: [],
-        options:[{id: '', label: '请选择分类'}],
-        siteType: 0
+        options:[{id: '', label: '请选择栏目'}],
+        siteType: 0,
       }
     },
     mounted() {
@@ -145,7 +137,7 @@
         if (this.search) {
           params['title'] = this.search;
         }
-        http.getArticle(params).then(rs => {
+        http.getAtlas(params).then(rs => {
           if (!rs.code) {
             this.leafItems = rs.data;
             this.judgeSelectList();
@@ -157,8 +149,10 @@
       getChecked(id){
           if(this.selectList.indexOf(id)!=-1){
               this.selectList.splice(this.selectList.indexOf(id),1);
+              this.judgeSelectList();
           }else{
               this.selectList.push(id);
+              this.judgeSelectList();
           }
       },
       getCheckedAll(){
@@ -200,19 +194,19 @@
         var that = this;
         if(!that.selected){
           that.$toast.success({ 
-            message:"请选择资讯分类",
+            message:"请选择图集栏目",
             color:'#3cb5f1'
           });
           return;
         }
         if(that.selectList.length<1){
           that.$toast.success({
-            message:"请选择发布文章",
+            message:"请选择发布图集",
             color:'#3cb5f1'
           });
           return;
         }
-        http.setArticleRelease({category_id: that.selected,sys_article_ids: that.selectList}).then(rs =>{
+        http.setAtlasRelease({category_id: that.selected,sys_atlas_ids: that.selectList}).then(rs =>{
           if (rs.success) {
               that.$toast.success({
                 message:"发布成功!",
@@ -229,7 +223,7 @@
         })
       },
       getCategoryList(){
-         http.getAllArticleCategory().then(rs => {
+         http.getAllAtlas().then(rs => {
           if (!rs.code) {
            if(this.siteType === 1){
                 rs.forEach(t1 => {
@@ -410,12 +404,17 @@
       font-size: 14px;
       width: 70px;
     }
+    .seo_cl{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
     .seo_item{
       width: 100%;
       height: 50px;
       overflow: hidden;
       white-space:nowrap;
-	  text-overflow: ellipsis;
+	    text-overflow: ellipsis;
       a{
         color: #007bff;
         cursor: pointer;
@@ -429,6 +428,8 @@
   }
 
   .classify{
+      position: absolute;
+      right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -466,6 +467,7 @@
     position: relative;
     display: table;
     border-collapse: separate;
+    width: auto;
   }
 
   .input-group .form-control {

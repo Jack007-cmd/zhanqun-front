@@ -30,9 +30,23 @@
                   <b-row>
                     <b-col cols="9" style="padding: 0;"><input type="text" v-model="nav.url" style="width:100%;">
                     </b-col>
-                    <b-col cols="1" style="text-align: right;padding: 0;"><input type='radio' id='window' value='1'
+                    <b-col>
+                      <label for="checkbox-1" style="cursor: pointer;"  v-if="path=='zixun/entertainment'">
+                          <b-form-checkbox
+                      id="checkbox-1"
+                      v-model="nav['is_blank']"
+                      value="1"
+                      unchecked-value="0"
+                      name="checkbox-1"
+                      style="float:left"
+                      >
+                      </b-form-checkbox>
+                      <i>新窗口打开</i>
+                      </label>
+                    </b-col>
+                    <!-- <b-col cols="1" style="text-align: right;padding: 0;"><input type='radio' id='window' value='1'
                                                                                  v-model="nav['is_blank']"/></b-col>
-                    <b-col cols="2" style="text-align: left;padding: 0;"><label for='window'>新窗口打开</label></b-col>
+                    <b-col cols="2" style="text-align: left;padding: 0;"><label for='window'>新窗口打开</label></b-col> -->
                   </b-row>
                 </b-container>
               </td>
@@ -83,9 +97,23 @@
                   <b-row>
                     <b-col cols="9" style="padding: 0;"><input type="text" v-model="update.url" style="width:100%;">
                     </b-col>
-                    <b-col cols="1" style="text-align: right;padding: 0;"><input type='radio' id='open' value='1'
+                    <b-col>
+                      <label for="checkbox-1" style="cursor: pointer;" v-if="path=='zixun/entertainment'">
+                      <b-form-checkbox
+                      id="checkbox-1"
+                      v-model="update['is_blank']"
+                      value="1"
+                      unchecked-value="0"
+                      name="checkbox-1"
+                      style="float:left"
+                      >
+                      </b-form-checkbox>
+                      <i>新窗口打开</i>
+                      </label>
+                    </b-col>
+                    <!-- <b-col cols="1" style="text-align: right;padding: 0;"><input type='radio' id='open' value='1'
                                                                                  v-model="update['is_blank']"/></b-col>
-                    <b-col cols="2" style="text-align: left;padding: 0;"><label for='open'>新窗口打开</label></b-col>
+                    <b-col cols="2" style="text-align: left;padding: 0;"><label for='open'>新窗口打开</label></b-col> -->
                   </b-row>
                 </b-container>
               </td>
@@ -154,7 +182,9 @@
           sort: 0,
           state: ''
         },
-        move:0
+        move:0,
+        path:'',
+        pid: 0
       }
     },
     methods: {
@@ -209,6 +239,9 @@
         http.getNavDetail(params).then(rs => {
           if (!rs.code) {
             this.update = rs;
+            if(this.update['id']){
+                this.pid = this.update['id'];
+            }
           }
         });
       },
@@ -216,6 +249,13 @@
         if (!this.update.name) {
            this.$toast.success({
             message:"请填写名称！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        if (this.pid==this.update.parent_id) {
+           this.$toast.success({
+            message:"不能将自身作为上级！",
             color:'#3cb5f1'
           });
           return;
@@ -269,6 +309,7 @@
     },
     mounted() {
       this.getNavList();
+      this.path = this.$store.getters.site.templatePath;
       this.plate = Number(this.$route.query.type || 1) === 1 ? 'a' : 'b';
       this.move = Number(this.$route.query.move);
       if (this.$route.query.id) {

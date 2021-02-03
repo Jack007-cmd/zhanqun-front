@@ -70,6 +70,18 @@
                         @change="chooseImg($event, 1,update,'logo')">
                   <img v-lazy="update['logo_img']" :key="update['logo_img']" alt=""
                       style="margin-left:50px;width: 70px;height: 70px;vertical-align: top;">
+                  <template v-if="templatePath=='news/comprehensive'">
+                    <span style="margin-left:25px;width:75px;display: inline-block;">PC端白色<span style="color:red;">*</span></span>
+                    <label class="btn btn-orange" for="white_logo"
+                          style="display:inline-block;width: 70px;padding: 0;text-align: center;line-height: 28px;">
+                      <img src="../../../assets/imgs/upload.png" height="70" width="113"/></label>
+
+                    <input type="file" id="white_logo" style="position:absolute; clip:rect(0 0 0 0);"
+                          accept="image/png, image/jpeg, image/gif, image/jpg"
+                          @change="chooseImg($event, 1,update,'white_logo')">
+                    <img v-lazy="update['white_logo_img']" :key="update['white_logo_img']" alt=""
+                        style="margin-left:50px;width: 70px;height: 70px;vertical-align: top;">
+                  </template>
                 </tr>
                 <tr>
                   <span style="width:45px;display: inline-block;">移动端</span>
@@ -150,8 +162,10 @@
           domain: '',
           icon: '',
           logo: '',
+          white_logo:'',
           icon_img: '',
           logo_img: '',
+          white_logo_img:'',
           h5_icon: '',
           h5_logo: '',
           h5_icon_img: '',
@@ -161,6 +175,7 @@
           html: ''
         },
         errorImg: 'this.src="' + require('../../../assets/imgs/site-img.png') + '"',
+        templatePath:''
       }
     },
     methods: {
@@ -255,10 +270,12 @@
             let temp = rs;
             temp['icon_img'] = rs['icon'];
             temp['logo_img'] = rs['logo'];
+            temp['white_logo_img'] = rs['white_logo'];
             temp['h5_icon_img'] = rs['h5_icon'];
             temp['h5_logo_img'] = rs['h5_logo'];
             temp['icon'] = '';
             temp['logo'] = '';
+            temp['white_logo'] = '';
             temp['h5_icon'] = '';
             temp['h5_logo'] = '';
             this.update = temp;
@@ -270,6 +287,9 @@
       this.getSiteType();
       if (this.$route.query.id) {
         this.getSiteDetail(this.$route.query.id);
+      }
+      if (this.$route.query.path) {
+        this.templatePath = this.$route.query.path;
       }
     },
     beforeUpdate() {

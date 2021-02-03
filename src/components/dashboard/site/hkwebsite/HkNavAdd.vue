@@ -176,7 +176,8 @@ import * as http from '../../../../../apis/site'
           sort: '',
           state: '',
           is_blank:'',
-        }
+        },
+        pid: 0
       }
     },
     methods: {
@@ -226,6 +227,13 @@ import * as http from '../../../../../apis/site'
         if (!this.update.name) {
           this.$toast.success({
             message:"请填写名称！",
+            color:'#3cb5f1'
+          });
+          return;
+        }
+        if (this.pid==this.update.parent_id) {
+           this.$toast.success({
+            message:"不能将自身作为上级！",
             color:'#3cb5f1'
           });
           return;
@@ -286,6 +294,9 @@ import * as http from '../../../../../apis/site'
         http.getNavDetail({id: id}).then(rs => {
           if (!rs.code) {
             this.update = rs;
+            if(this.update['id']){
+                this.pid = this.update['id'];
+            }
           }
         });
       },
